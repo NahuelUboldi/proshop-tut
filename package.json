@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
@@ -12,7 +14,10 @@
   "description": "mern e-coommerce",
   "main": "server.js",
   "scripts": {
-    "start": "node backend/server.js"
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm run dev --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -23,5 +28,9 @@
   "bugs": {
     "url": "https://github.com/NahuelUboldi/proshop-tut/issues"
   },
-  "homepage": "https://github.com/NahuelUboldi/proshop-tut#readme"
+  "homepage": "https://github.com/NahuelUboldi/proshop-tut#readme",
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "nodemon": "^2.0.20"
+  }
 }
