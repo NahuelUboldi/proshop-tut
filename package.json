@@ -13,6 +13,7 @@
   "version": "1.0.0",
   "description": "mern e-coommerce",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node backend/server",
     "server": "nodemon backend/server",
