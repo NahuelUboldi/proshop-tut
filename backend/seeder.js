@@ -3,13 +3,13 @@ import dotenv from 'dotenv';
 import colors from 'colors';
 import users from './data/users.js';
 import products from './data/products.js';
-
 import User from './models/userModel.js';
 import Product from './models/productModel.js';
 import Order from './models/orderModel.js';
 import connectDB from './config/db.js';
 
 dotenv.config();
+
 connectDB();
 
 const importData = async () => {
@@ -18,13 +18,12 @@ const importData = async () => {
     await Product.deleteMany();
     await User.deleteMany();
 
-    const createdUser = await User.insertMany(users);
-    const adminUser = createdUser[0]._id;
-    const sampleProducts = products.map((prod) => {
-      return {
-        ...prod,
-        user: adminUser,
-      };
+    const createdUsers = await User.insertMany(users);
+
+    const adminUser = createdUsers[0]._id;
+
+    const sampleProducts = products.map((product) => {
+      return { ...product, user: adminUser };
     });
 
     await Product.insertMany(sampleProducts);
@@ -32,7 +31,7 @@ const importData = async () => {
     console.log('Data Imported!'.green.inverse);
     process.exit();
   } catch (error) {
-    console.error(`Error: ${error}`.red.inverse);
+    console.error(`${error}`.red.inverse);
     process.exit(1);
   }
 };
@@ -46,7 +45,7 @@ const destroyData = async () => {
     console.log('Data Destroyed!'.red.inverse);
     process.exit();
   } catch (error) {
-    console.error(`Error: ${error}`.red.inverse);
+    console.error(`${error}`.red.inverse);
     process.exit(1);
   }
 };
