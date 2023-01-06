@@ -18,21 +18,25 @@ const productsListSlice = createSlice({
     status: '',
   },
   extraReducers: {
-    [getProducts.fulfilled]: (state, action) => {
-      let updatedProductList = state.products.concat(action.payload);
-      state.products = updatedProductList;
-      state.loading = false;
-      state.status = 'Products fetched succesfully';
-    },
     [getProducts.pending]: (state) => {
+      console.log('Pending');
       state.loading = true;
       state.status = 'Fetching todos. Please wait a moment...';
     },
+    [getProducts.fulfilled]: (state, action) => {
+      console.log('fullfilled');
+
+      state.products = action.payload;
+      state.loading = false;
+      state.status = 'Products fetched succesfully';
+    },
     [getProducts.rejected]: (state) => {
+      console.log('rejected');
       state.loading = false;
       state.status = 'Failed to fetch data...';
     },
   },
 });
+console.log(productsListSlice);
 
 export default productsListSlice.reducer;

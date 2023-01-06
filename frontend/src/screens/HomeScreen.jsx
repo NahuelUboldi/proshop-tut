@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Row, Col } from 'react-bootstrap';
 import Product from '../components/Product';
+import { useSelector } from 'react-redux';
+
 function HomeScreen() {
   const [products, setProducts] = useState([]);
 
