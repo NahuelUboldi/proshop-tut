@@ -3,21 +3,18 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 import Rating from '../components/Rating';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../redux/features/productDetailSlice';
 
 function ProductScreen() {
   let { id } = useParams();
-
-  const [product, setProduct] = useState([]);
-
+  const { loading, products, status, error } = useSelector(
+    (state) => state.productDetail
+  );
+  const dispatch = useDispatch();
   useEffect(() => {
-    const fetchProduct = async () => {
-      const { data } = await axios.get(
-        `http://localhost:5000/api/products/${id}`
-      );
-
-      setProduct(data);
-    };
-    fetchProduct();
+    console.log('id: ', id);
+    dispatch(() => getProducts(id));
   }, []);
 
   return (

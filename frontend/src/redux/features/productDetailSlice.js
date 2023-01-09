@@ -1,17 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const getProducts = createAsyncThunk('productList/getProducts', () => {
-  return axios
-    .get('http://localhost:5000/api/products')
-    .then((res) => res.data);
-});
+export const getProducts = createAsyncThunk(
+  'productList/getProducts',
+  ({ id }) => {
+    console.log(id);
+    return axios
+      .get(`http://localhost:5000/api/products/${id}`)
+      .then((res) => res.data);
+  }
+);
 
-const productsListSlice = createSlice({
-  name: 'productList',
+const productDetailSlice = createSlice({
+  name: 'productDetail',
   initialState: {
     loading: false,
-    products: [],
+    product: [],
     status: '',
     error: '',
   },
@@ -34,6 +38,6 @@ const productsListSlice = createSlice({
       });
   },
 });
-console.log(productsListSlice);
+console.log(productDetailSlice);
 
-export default productsListSlice.reducer;
+export default productDetailSlice.reducer;
