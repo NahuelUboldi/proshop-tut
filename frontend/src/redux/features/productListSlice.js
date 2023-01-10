@@ -19,7 +19,7 @@ const productsListSlice = createSlice({
     builder
       .addCase(getProducts.pending, (state) => {
         state.loading = true;
-        state.status = 'Fetching todos. Please wait a moment...';
+        state.status = 'Fetching products. Please wait a moment...';
       })
       .addCase(getProducts.fulfilled, (state, action) => {
         state.products = [...action.payload];
@@ -34,6 +34,5 @@ const productsListSlice = createSlice({
       });
   },
 });
-console.log(productsListSlice);
 
 export default productsListSlice.reducer;
