@@ -4,19 +4,21 @@ import axios from 'axios';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../redux/features/productDetailSlice';
+import { getProductDetails } from '../redux/features/productDetailsSlice';
 
 function ProductScreen() {
   let { id } = useParams();
-  const { loading, products, status, error } = useSelector(
-    (state) => state.productDetail
-  );
+  const state = useSelector((state) => {
+    console.log(state);
+    return state.productDetails;
+  });
   const dispatch = useDispatch();
   useEffect(() => {
     console.log('id: ', id);
-    dispatch(() => getProducts(id));
+    dispatch((id) => getProductDetails(id));
   }, []);
-
+  console.log({ state });
+  const product = {};
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>

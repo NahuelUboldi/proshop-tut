@@ -22,7 +22,7 @@ const productsListSlice = createSlice({
         state.status = 'Fetching todos. Please wait a moment...';
       })
       .addCase(getProducts.fulfilled, (state, action) => {
-        state.products = action.payload;
+        state.products = [...action.payload];
         state.loading = false;
         state.status = 'Products fetched succesfully';
       })
