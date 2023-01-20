@@ -1,37 +1,33 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-export const getCartItems = createAsyncThunk('cart/getCartItems', (id) => {
-  const url = `http://localhost:5000/api/products/${id}`;
-  return axios.get(url).then((res) => res.data);
-});
+import { createSlice } from '@reduxjs/toolkit';
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    cart: false,
-    cartItems: [],
-    status: '',
-    error: '',
+    cartItems: ['cartItem'],
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(getCartItems.pending, (state) => {
-        state.loading = true;
-        state.status = 'Fetching products. Please wait a moment...';
-      })
-      .addCase(getCartItems.fulfilled, (state, action) => {
-        state.product = action.payload;
-        state.loading = false;
-        state.status = 'Products fetched succesfully';
-      })
-      .addCase(getCartItems.rejected, (state, action) => {
-        state.loading = false;
-        state.status = 'Failed to fetch data...';
-        state.product = [];
-        state.error = action.error.message;
+  reducers: {
+    addCartItem: (state, action) => {
+      // console.log({ state, a: action.payload });
+      // const { id, qty } = action.payload;
+      // console.log('action.payload: ', action.payload);
+      // console.log({ id, qty });
+      // console.log(state.cartItems);
+      const itemInCart = state.cartItems.find((item) => {
+        console.log({ item, a: action.payload._id });
+        return item._id === action.payload._id;
       });
+      console.log({ itemInCart });
+      if (itemInCart) {
+        // itemInCart.quantity++;
+        console.log('increase qty');
+      } else {
+        state.cartItems.push({ ...action.payload, qty: 1 });
+      }
+    },
+    removeCartItem: (state) => {},
   },
 });
+
+export const { addCartItem, removeCartItem } = cartSlice.actions;
 
 export default cartSlice.reducer;
