@@ -22,13 +22,9 @@ function CartScreen() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // console.log(item, Object.keys(item).length > 0);
-    if (Object.keys(item).length > 0) {
-      dispatch(
-        addCartItem({
-          ...item,
-        })
-      );
+    const isItemPased = Object.keys(item).length > 0;
+    if (isItemPased) {
+      dispatch(addCartItem({ item, qty }));
     }
   }, [item, dispatch, id]);
   return (
