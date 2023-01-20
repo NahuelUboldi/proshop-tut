@@ -3,25 +3,35 @@ import { createSlice } from '@reduxjs/toolkit';
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    cartItems: ['cartItem'],
+    cartItems: [],
   },
   reducers: {
     addCartItem: (state, action) => {
-      // const { id, qty } = action.payload;
-      // console.log('action.payload: ', action.payload);
-      // console.log({ id, qty });
-      // console.log(state.cartItems);
-
       const itemInCart = state.cartItems.find((item) => {
-        console.log({ state: item._id, payload: action.payload.item._id });
-
-        console.log(item._id === action.payload.item._id);
-        return item._id === action.payload.item._id;
+        return item.product === action.payload.product;
       });
       if (itemInCart) {
-        console.log('increase qty');
+        console.log('modify item');
+        // add qty missing
+        return {
+          ...state,
+          cartItems: state.cartItems.map((x) => {
+            if (x.product === itemInCart.product) {
+              console.log('if', action.payload);
+              const newQty = Number(x.qty) + Number(action.payload.qty);
+              return action.payload;
+            }
+            console.log('else');
+            return x;
+          }),
+        };
       } else {
-        state.cartItems.push({ ...action.payload.item, qty: 1 });
+        console.log('push Item');
+        return {
+          ...state,
+          cartItems: [...state.cartItems, { ...action.payload }],
+        };
+        // state.cartItems.push({ ...action.payload });
       }
     },
     removeCartItem: (state) => {},
