@@ -23,15 +23,17 @@ import Message from '../components/Message';
 function CartScreen() {
   let { id } = useParams();
   let [search] = useSearchParams();
-  let qty = Number(search.get('qty'));
+  let qty = Number(search.get('qty')) || 0;
   const [item, setItem] = useState({});
   useEffect(() => {
-    async function getItem() {
-      const url = `http://localhost:5000/api/products/${id}`;
-      const { data } = await axios.get(url);
-      setItem(data);
+    if (id) {
+      async function getItem() {
+        const url = `http://localhost:5000/api/products/${id}`;
+        const { data } = await axios.get(url);
+        setItem(data);
+      }
+      getItem();
     }
-    getItem();
   }, []);
 
   const dispatch = useDispatch();
@@ -40,7 +42,7 @@ function CartScreen() {
     if (isItemPased) {
       dispatch(
         addCartItem({
-          product: item._id,
+          product: id,
           name: item.name,
           image: item.image,
           price: item.price,
@@ -52,19 +54,14 @@ function CartScreen() {
   }, [item, dispatch, id]);
 
   const { cartItems } = useSelector((state) => state.cart);
-  useEffect(() => {
-    if (cartItems) {
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    }
-  }, [cartItems]);
+  // useEffect(() => {
+  //   if (cartItems) {
+  //     localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  //   }
+  // }, [cartItems]);
 
   const changeQtyHandler = (item, e) => {
-    dispatch(
-      addCartItem({
-        ...item,
-        qty: Number(e.target.value),
-      })
-    );
+    dispatch(addCartItem({ ...item, qty: Number(e.target.value) }));
   };
 
   const removeFromCartHandler = (id) => {
