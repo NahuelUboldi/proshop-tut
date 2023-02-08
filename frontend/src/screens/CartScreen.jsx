@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addCartItem } from '../redux/features/cartSlice';
+import { addCartItem, removeCartItem } from '../redux/features/cartSlice';
 import axios from 'axios';
 import {
   Row,
@@ -54,18 +54,13 @@ function CartScreen() {
   }, [item, dispatch, id]);
 
   const { cartItems } = useSelector((state) => state.cart);
-  // useEffect(() => {
-  //   if (cartItems) {
-  //     localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  //   }
-  // }, [cartItems]);
 
   const changeQtyHandler = (item, e) => {
     dispatch(addCartItem({ ...item, qty: Number(e.target.value) }));
   };
 
   const removeFromCartHandler = (id) => {
-    console.log('remove');
+    dispatch(removeCartItem(id));
   };
 
   const navigate = useNavigate();
