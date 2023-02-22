@@ -17,6 +17,11 @@ function LoginScreen() {
 
   // loading error userInfo
 
+  const { loading, userInfo, error, success } = useSelector(
+    (state) => state.auth
+  );
+  const dispatch = useDispatch();
+
   const submitHandler = (e) => {
     e.preventDefault();
     //DISPATCH LOGIN
